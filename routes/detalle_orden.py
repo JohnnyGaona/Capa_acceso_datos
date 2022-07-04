@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Blueprint,render_template, request
 from utils.db import conexion
 
@@ -30,7 +29,9 @@ def view():
      print(row)   
     return "mostrando detalle de orden"
 
-
+@dl_orden.route("/mainDl_or")
+def principal():
+    return render_template("detalleorden.html")
 
 def datos ():
     ci_con = input("Ingrese el codigo del producto: ")

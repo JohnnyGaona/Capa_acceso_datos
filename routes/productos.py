@@ -11,9 +11,16 @@ def update ():
 
 @producto.route("/newProduct",methods=["POST"])
 def add():
-    cursor.execute('insert into producto(nombre, precio, descripción, id_categoria, stock) values(?,?,?,?,?);', (request.form['nombre'],request.form['precio'],request.form['descripcion'],request.form['id_categoria'],request.form['stock']))
-    conexion.commit()
-    return "guardando prodcuto"
+    x = float(request.form['precio'])
+    if x > 0:
+        if int(request.form['stock']) >= 0:
+            cursor.execute('insert into producto(nombre, precio, descripción, id_categoria, stock) values(?,?,?,?,?);', (request.form['nombre'],request.form['precio'],request.form['descripcion'],request.form['id_categoria'],request.form['stock']))
+            conexion.commit()
+            return "guardando prodcuto"
+        else:
+            return "Error de guardado"
+    else:
+        return "Error de guardado"
 
 @producto.route("/deleteProduct")
 def delete():
@@ -24,9 +31,10 @@ def delete():
 @producto.route("/viewProduct")
 def view():
     cursor.execute("SELECT * FROM producto")
-    rows = cursor.fetchall()
-    for row in rows:
-     print(row)
+    rows = cursor.fetchone()
+    while rows:
+        print(rows)
+        rows = cursor.fetchone()
     return "mostrando prodcuto"
 
 @producto.route("/mainPro")
@@ -36,8 +44,10 @@ def principal():
 def datos ():
     ci_con = input("Ingrese el codigo del producto: ")
     nombre = input("nombre: ")
-    precio = input("precio: ")
+    while precio <= 0:
+        precio = input("precio: ")
     descripcion = input("descripcion: ")
     id_categoria = input("id de la categoria: ")
-    stock = input("stock: ")
+    while stock < 0:
+        stock = input("stock: ")
     cursor.execute("update producto set  nombre=?, precio=?, descripción=?, id_categoria=?, stock=? where id=?",(nombre,precio,descripcion,id_categoria,stock,ci_con))

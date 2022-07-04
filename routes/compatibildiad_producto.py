@@ -10,7 +10,8 @@ def update ():
 
 @cmp_prodcuto.route("/newCMP_Product",methods=["POST"])
 def add():
-    cursor.execute('insert into compatibilidad_producto(id,id_producto,producto_compatible) values(?,?,?);', (request.form['id'],request.form['Producto id'],request.form['Producto compatible id']))
+    x = int()
+    cursor.execute('insert into compatibilidad_producto(id,id_producto,producto_compatible) values(?,?,?);', (request.form['id_com'],request.form['Producto id'],request.form['referencias id']))
     conexion.commit()
     return "guardando compatibilidad"
 
