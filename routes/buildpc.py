@@ -98,9 +98,9 @@ def muestra ():
     for p in pc:
         total = total + p[2]
         
-    inp = ("Desea ordenar el producto: (si/1)(no/0)")
-
-    if inp == 0:
+    inp = input("Desea ordenar el producto: (si/1)(no/0): ")
+    
+    if inp == '0':
         print("Gracias por su tiempo ")
     else: 
         ci = input("Ingrese su id: ")
@@ -121,11 +121,11 @@ def muestra ():
             conexion.commit()
             print("Orden Realizada....")
             #Falta descontar los productos de la base de datos
+            for p in pc:
+                cursor.execute("select stock from producto where id=?",p[0])
+                stock = cursor.fetchone()
+                stock[0]-=1
+                cursor.execute("update producto set stock=? where id=?",(stock[0],p[0]))
         else:
             print("No se encontro al usuario....")
-
-    for p in pc:
-        cursor.execute("select stock from productos where id=?",pc[0])
-        stock = cursor.fetchone()
-        print(stock)
     return "Ño"
